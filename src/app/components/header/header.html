@@ -1,0 +1,34 @@
+<header class="header">
+    <div class="header-brand">
+        <a routerLink="/">AnswerNow</a>
+    </div>
+    <nav class="header-nav">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/questions" routerLinkActive="active">Questions</a>
+        <!--
+        Async Pipe
+        1. subscribe to the observable
+        2. display any current value
+        3. auto-unsubscribe when component is destroyed        
+        -->
+        <ng-container *ngIf="currentUser$ | async as user; else loginLinks">
+            <!-- User is logged in -->
+             <span class="user-greeting"> Hello, {{ user.displayName}}</span>
+
+            <!-- Show Admin Panel link only for Admins -->
+            <a *ngIf="user.role === 'Admin'" routerLink="/admin" class="btn-admin">Admin Panels</a>
+
+            <!-- Show Moderator link for Admins and Moderators -->
+             <a *ngIf="user.role === 'Admin' || user.role === 'Moderator'"
+             routerLink="/moderate" class="btn-moderate">Moderate</a>
+
+             <a routerLink="/questions/new" class="btn-ask">Ask a Question</a>
+             <button class="btn-logout" (click)="logout()">Logout</button>
+        </ng-container>
+
+        <ng-template #loginLinks>
+            <a routerLink="/login" routerLinkActive="active">Login</a>
+            <a routerLink="/register" class="btn-register">Register</a>
+        </ng-template>
+    </nav>
+</header>    

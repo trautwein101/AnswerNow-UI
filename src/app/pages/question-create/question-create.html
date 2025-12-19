@@ -1,0 +1,35 @@
+<h2>Ask a Question</h2>
+<p>
+    <a routerLink="/questions">&larr; Back to Questions</a>
+</p>
+
+<form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label for="title">Title</label>
+    <input id="title" type="text" formControlName="title" />
+    <div *ngIf="questionForm.get('title')?.invalid && questionForm.get('title')?.touched">
+      Title is required (max 200 characters)
+    </div>
+  </div>
+
+  <div>
+    <label for="body">Question Details</label>
+    <textarea id="body" formControlName="body" rows="5"></textarea>
+    <div *ngIf="questionForm.get('body')?.invalid && questionForm.get('body')?.touched">
+      Question details are required
+    </div>
+  </div>
+
+  <div>
+    <label for="createdBy">Your Email</label>
+    <input id="createdBy" type="email" formControlName="createdBy" />
+    <div *ngIf="questionForm.get('createdBy')?.invalid && questionForm.get('createdBy')?.touched">
+      Email is required
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="questionForm.invalid">Submit Question</button>
+
+</form>
+

@@ -1,0 +1,116 @@
+.answer-card {
+  background: #f8f9fa;
+  border-left: 3px solid #3498db;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+form {
+  margin-top: 1rem;
+}
+
+form div {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background: #3498db;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+
+.answer-card {
+  display: flex;
+  gap: 1rem;
+  background: #f8f9fa;
+  border-left: 3px solid #3498db;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.vote-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 50px;
+}
+
+.vote-btn {
+  background: #ecf0f1;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.vote-btn:hover {
+  background: #bdc3c7;
+}
+
+.vote-btn.upvote:hover {
+  background: #2ecc71;
+  color: white;
+}
+
+.vote-btn.downvote:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.vote-score {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #7f8c8d;
+}
+
+.vote-score.positive {
+  color: #27ae60;
+}
+
+.vote-score.negative {
+  color: #e74c3c;
+}
+
+.answer-content {
+  flex: 1;
+}
+
+.vote-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vote-btn.voted {
+  opacity: 0.5;
+  background: #95a5a6;
+}
+
+.voted-label {
+  color: #27ae60;
+  font-weight: bold;
+  margin-top: 0.25rem;
+}

@@ -1,0 +1,57 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Create Account</h2>
+
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="you@example.com" />
+                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="field-error">
+                    Please enter a valid email
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="displayName">Display Name</label>
+                <input
+                id="displayName"
+                type="text"
+                formControlName="displayName"
+                placeholder="What is your display name?" />
+                <div *ngIf="registerForm.get('displayName')?.invalid && registerForm.get('displayName')?.touched" class="field-error">
+                    Display name is required (min 2 characters)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                id="password"
+                type="password"
+                formControlName="password"
+                placeholder="What is your password" />
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="field-eror">
+                    Password mut be at least 6 characters
+                </div>
+            </div>
+
+            <button type="submit" [disabled]="registerForm.invalid || isLoading">
+                {{isLoading ? 'Creating account...' : 'Create Account' }}
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+            Already have an account? <a routerLink="/login">Login here</a>
+        </p>
+    </div>
+</div>

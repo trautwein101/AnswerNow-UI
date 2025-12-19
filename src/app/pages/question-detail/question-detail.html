@@ -1,0 +1,74 @@
+<a routerLink="/questions">&larr; Back to Questions</a>
+
+<div *ngIf="question; else loading">
+  <h2>{{ question.title }}</h2>
+  <p>{{ question.body }}</p>
+
+  <small>
+    Asked on {{ question?.dateCreated | date:'medium' }}
+    by {{ question?.createdBy }}
+  </small>
+
+  <hr>
+  <h3>Answers ({{ answers.length }})</h3>
+  <div *ngIf="answers.length > 0; else noAnswers">
+    <div *ngFor="let answer of answers" class="answer-card">   
+      
+      <!-- Vote Section -->
+      <div class="vote-section">
+          <button 
+            class="vote-btn upvote" 
+            (click)="voteOnAnswer(answer.id, true)"
+            [disabled]="votingInProgress || hasVoted(answer.id)"
+            [class.voted]="hasVoted(answer.id)">
+            ▲
+          </button>
+          <span class="vote-score" 
+                [class.positive]="answer.voteScore > 0"
+                [class.negative]="answer.voteScore < 0">
+            {{ answer.voteScore }}
+          </span>
+          <button 
+            class="vote-btn downvote" 
+            (click)="voteOnAnswer(answer.id, false)"
+            [disabled]="votingInProgress || hasVoted(answer.id)"
+            [class.voted]="hasVoted(answer.id)">
+            ▼
+          </button>
+        <small *ngIf="hasVoted(answer.id)" class="voted-label">Voted!</small>
+      </div>
+
+       <!-- Answer Content -->
+      <p>{{ answer.body }}</p>
+      <small>
+        Answered on {{ answer.dateCreated | date: 'medium' }}
+        by {{ answer.createdBy }}
+      </small>
+    </div>
+  </div>
+
+  <ng-template #noAnswers>
+    <p>No answers yet. Be the first to answer!</p>
+  </ng-template>
+
+  <hr>
+  <h3>Your Answer</h3>
+
+  <form [formGroup]="answerForm" (ngSubmit)="submitAnswer()">
+
+    <div>
+      <label for="answerBody">Your Answer</label>
+      <textarea id="answerBody" formControlName="body" rows="4" placeholder="Share your knowledge..."></textarea>
+    </div>
+
+    <div>
+      <label for="createdBy">Your Email</label>
+      <input id="answerCreatedBy" type="email" formControlName="createdBy" placeholder="you@example.com" />
+    </div>
+    <button type="submit" [disabled]="answerForm.invalid">Post Your Answer</button>
+  </form>
+</div>
+
+<ng-template #loading>
+  <p>Loading question</p>
+</ng-template>

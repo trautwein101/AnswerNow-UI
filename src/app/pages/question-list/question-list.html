@@ -1,0 +1,24 @@
+<h2>Questions</h2>
+<p>
+  <strong>
+    <a [routerLink]="['/questions/new']">
+      + Ask a Question
+    </a>
+  </strong>
+</p>
+
+<ul>
+  <li *ngFor="let q of questions">
+    <strong>
+      <a [routerLink]="['/questions', q.id]">
+        {{ q.title }}
+      </a>
+    </strong>
+
+    <p>{{ q.body }}</p>
+
+    <small>
+      Asked on {{ q.dateCreated | date:'short' }} by {{ q.createdBy }}
+    </small>
+  </li>
+  

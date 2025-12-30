@@ -1,34 +1,39 @@
 <header class="header">
     <div class="header-brand">
-        <a routerLink="/">AnswerNow</a>
+        <a routerLink="/">
+            <span class="brand-icon">💬</span>
+            AnswerNowPlace
+        </a>
     </div>
+    
     <nav class="header-nav">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         <a routerLink="/questions" routerLinkActive="active">Questions</a>
-        <!--
-        Async Pipe
-        1. subscribe to the observable
-        2. display any current value
-        3. auto-unsubscribe when component is destroyed        
-        -->
+    </nav>
+
+    <div class="header-actions">
         <ng-container *ngIf="currentUser$ | async as user; else loginLinks">
             <!-- User is logged in -->
-             <span class="user-greeting"> Hello, {{ user.displayName}}</span>
+            <span class="user-greeting">Hello, <strong>{{ user.displayName }}</strong></span>
 
             <!-- Show Admin Panel link only for Admins -->
-            <a *ngIf="user.role === 'Admin'" routerLink="/admin" class="btn-admin">Admin Panels</a>
+            <a *ngIf="user.role === 'Admin'" routerLink="/admin" class="btn btn-danger btn-sm">
+                Admin Panel
+            </a>
 
             <!-- Show Moderator link for Admins and Moderators -->
-             <a *ngIf="user.role === 'Admin' || user.role === 'Moderator'"
-             routerLink="/moderate" class="btn-moderate">Moderate</a>
+            <a *ngIf="user.role === 'Admin' || user.role === 'Moderator'"
+               routerLink="/moderate" class="btn btn-warning btn-sm">
+                Moderate
+            </a>
 
-             <a routerLink="/questions/new" class="btn-ask">Ask a Question</a>
-             <button class="btn-logout" (click)="logout()">Logout</button>
+            <a routerLink="/questions/new" class="btn btn-secondary btn-sm">Ask a Question</a>
+            <button class="btn-logout" (click)="logout()">Logout</button>
         </ng-container>
 
         <ng-template #loginLinks>
-            <a routerLink="/login" routerLinkActive="active">Login</a>
-            <a routerLink="/register" class="btn-register">Register</a>
+            <a routerLink="/login" class="btn btn-ghost">Login</a>
+            <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
         </ng-template>
-    </nav>
-</header>    
+    </div>
+</header>

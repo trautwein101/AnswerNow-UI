@@ -1,53 +1,54 @@
 <div class="auth-container">
-    <div class="auth-card">
+    <div class="card auth-card">
         <h2>Create Account</h2>
 
-        <div *ngIf="errorMessage" class="error-message">
+        <div *ngIf="errorMessage" class="alert alert-error">
             {{ errorMessage }}
         </div>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email" class="form-label">Email</label>
                 <input
-                id="email"
-                type="email"
-                formControlName="email"
-                placeholder="you@example.com" />
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="you@example.com" />
                 <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="field-error">
-                    Please enter a valid email
+                    Please enter a valid email.
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="displayName">Display Name</label>
+                <label for="displayName" class="form-label">Display Name</label>
                 <input
-                id="displayName"
-                type="text"
-                formControlName="displayName"
-                placeholder="What is your display name?" />
+                    id="displayName"
+                    type="text"
+                    class="form-control"
+                    formControlName="displayName"
+                    placeholder="How should we call you?" />
                 <div *ngIf="registerForm.get('displayName')?.invalid && registerForm.get('displayName')?.touched" class="field-error">
-                    Display name is required (min 2 characters)
+                    Display name is required (min 2 characters).
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password" class="form-label">Password</label>
                 <input
-                id="password"
-                type="password"
-                formControlName="password"
-                placeholder="What is your password" />
-                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="field-eror">
-                    Password mut be at least 6 characters
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Create a strong password" />
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="field-error">
+                    Password must be at least 6 characters.
                 </div>
             </div>
 
-            <button type="submit" [disabled]="registerForm.invalid || isLoading">
-                {{isLoading ? 'Creating account...' : 'Create Account' }}
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="registerForm.invalid || isLoading">
+                {{ isLoading ? 'Creating account...' : 'Create Account' }}
             </button>
-
         </form>
 
         <p class="auth-link">

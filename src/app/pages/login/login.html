@@ -1,45 +1,45 @@
 <div class="auth-container">
-    <div class="auth-card">
-        <h2>Login</h2>
+    <div class="card auth-card">
+        <h2>Welcome Back</h2>
 
-        <div *ngIf="errorMessage" class="error-message">
+        <div *ngIf="errorMessage" class="alert alert-error">
             {{ errorMessage }}
         </div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email" class="form-label">Email</label>
                 <input
-                id="email"
-                type="email"
-                formControlName="email"
-                placeholder="you@example.com" />
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="you@example.com" />
                 <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="field-error">
                     Please enter a valid email.
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password" class="form-label">Password</label>
                 <input
-                id="password"
-                type="password"
-                formControlName="password"
-                placeholder="Your password" />
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Your password" />
                 <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="field-error">
                     Password is required.
                 </div>
             </div>
             
-            <button type="submit" [disabled]="loginForm.invalid || isLoading">
-                {{ isLoading ? 'Loggin in...' : 'Login' }}
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid || isLoading">
+                {{ isLoading ? 'Logging in...' : 'Login' }}
             </button>
-        
         </form>
 
         <p class="auth-link">
             Don't have an account? <a routerLink="/register">Register here</a>
         </p>
-
     </div>
 </div>

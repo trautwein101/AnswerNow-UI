@@ -1,0 +1,127 @@
+<div class="admin-dashboard">
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">Manage users and monitor platform activity</p>
+  </header>
+
+  <div *ngIf="errorMessage" class="error-alert">
+    <span>⚠️ {{ errorMessage }}</span>
+    <button (click)="errorMessage = ''">&times;</button>
+  </div>
+
+  <section class="stats-section">
+    <h2>Platform Statistics</h2>
+    
+    <div *ngIf="isLoadingStats" class="loading">
+      Loading statistics...
+    </div>
+    
+    <div *ngIf="!isLoadingStats && stats" class="stats-grid">
+      
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-content">
+          <span class="stat-value">{{ stats.totalUsers }}</span>
+          <span class="stat-label">Total Users</span>
+        </div>
+        <div class="stat-change positive">+{{ stats.newUsersThisWeek }} this week</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">❓</div>
+        <div class="stat-content">
+          <span class="stat-value">{{ stats.totalQuestions }}</span>
+          <span class="stat-label">Total Questions</span>
+        </div>
+        <div class="stat-change positive">+{{ stats.newQuestionsThisWeek }} this week</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">💬</div>
+        <div class="stat-content">
+          <span class="stat-value">{{ stats.totalAnswers }}</span>
+          <span class="stat-label">Total Answers</span>
+        </div>
+        <div class="stat-change positive">+{{ stats.newAnswersThisWeek }} this week</div>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="users-section">
+    <h2>User Management</h2>
+    
+    <div *ngIf="isLoadingUsers" class="loading">
+      Loading users...
+    </div>
+    
+    <div *ngIf="!isLoadingUsers" class="table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+            <th>Questions</th>
+            <th>Answers</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" [class.banned]="user.isBanned">
+            
+            <td class="user-cell">
+              <span class="user-name">{{ user.displayName }}</span>
+            </td>
+            
+            <td>{{ user.email }}</td>
+            
+            <td>
+              <select 
+                (change)="onRoleChange(user, $any($event.target).value)"
+                class="role-select"
+                [class.role-admin]="user.role === 'Admin'"
+                [class.role-moderator]="user.role === 'Moderator'">
+                <option *ngFor="let role of availableRoles" 
+                        [value]="role"
+                        [selected]="role === user.role">
+                  {{ role }}
+                </option>
+              </select>
+            </td>
+            
+            <td>{{ formatDate(user.dateCreated) }}</td>
+            
+            <td class="center">{{ user.questionCount }}</td>
+            
+            <td class="center">{{ user.answerCount }}</td>
+            
+            <td>
+              <span class="status-badge" [class.active]="!user.isBanned" [class.banned]="user.isBanned">
+                {{ user.isBanned ? 'Banned' : 'Active' }}
+              </span>
+            </td>
+            
+            <td>
+              <button 
+                (click)="toggleBan(user)" 
+                class="action-btn"
+                [class.ban-btn]="!user.isBanned"
+                [class.unban-btn]="user.isBanned">
+                {{ user.isBanned ? 'Unban' : 'Ban' }}
+              </button>
+            </td>
+            
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="users.length === 0" class="empty-state">
+        No users found.
+      </div>
+    </div>
+  </section>
+  
+</div>

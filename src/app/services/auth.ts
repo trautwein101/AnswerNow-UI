@@ -148,6 +148,7 @@ export class AuthService {
     //Storage helpers
     private clearStorage(): void {
         localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+        localStorage.removeItem(this.REFRESH_TOKEN_KEY);  
         localStorage.removeItem(this.USER_KEY);
     }
 

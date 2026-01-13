@@ -8,6 +8,10 @@ import { QuestionCreate } from './pages/question-create/question-create';
 
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
+
+import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
+
+import { adminGuard } from './guards/role.guard';
 import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -20,6 +24,10 @@ const routes: Routes = [
     canActivate: [authGuard] //Protected via login
   },
   { path: 'questions/:id', component: QuestionDetail },
+  { path: 'admin',
+    component: AdminDashboard,
+    canActivate: [adminGuard] //Protected via admin role
+  }
 ];
 
 @NgModule({

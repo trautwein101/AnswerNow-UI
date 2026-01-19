@@ -15,9 +15,14 @@ export interface Users{
     email: string;
     displayName: string;
     role: string;
-    dateCreated: string;
+    isProfessional: boolean;
     isBanned: boolean;
     isActive: boolean;
+    isSuspended: boolean;
+    dateCreated: string; 
+    dateUpdated: string;
     questionCount: number;
     answerCount: number;
+    questionFlagCount: number;
+    answerFlagCount: number;
 }

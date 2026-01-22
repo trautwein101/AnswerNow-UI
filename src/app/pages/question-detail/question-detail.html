@@ -85,6 +85,7 @@
   <section class="answer-form">
     <h3>Your Answer</h3>
 
+    <ng-container *ngIf="currentUser$ | async as user; else loginToAnswer">
     <form [formGroup]="answerForm" (ngSubmit)="submitAnswer()">
       <div class="form-group">
         <label for="answerBody" class="form-label">Your Answer</label>
@@ -103,13 +104,24 @@
           class="form-control"
           type="email"
           formControlName="createdBy"
-          placeholder="you@example.com" />
+          readonly/>
       </div>
 
       <button class="btn btn-primary" type="submit" [disabled]="answerForm.invalid">
         Post Your Answer
       </button>
     </form>
+  </ng-container>
+  
+   <ng-template #loginToAnswer>
+    <p class="empty-state">You must be logged in to post an answer.</p>
+    <a
+      class="btn btn-primary"
+      [routerLink]="['/login']"
+      [queryParams]="{ returnUrl: router.url }">
+      Login to Answer
+    </a>
+  </ng-template>
   </section>
 
 </div>

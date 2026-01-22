@@ -15,15 +15,12 @@ import { User } from '../../models/auth';
 })
 export class Header implements OnInit {
 
-  //subscribe to user changes
-  //currentUser$ is an observable and emits whenever user changes.
-  //Use async pipe in template to subscribe
- currentUser$!: Observable<User | null>; //delared with ! so will be set in ngOnInit
+ currentUser$!: Observable<User | null>;
 
  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-      this.currentUser$ = this.authService.currentUser$; //set after constructor
+      this.currentUser$ = this.authService.currentUser$;
   }
 
   logout(): void {

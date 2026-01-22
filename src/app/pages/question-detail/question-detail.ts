@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -9,6 +9,10 @@ import { AnswerService } from '../../services/answer';
 import { Question } from '../../models/question';
 import { Answer } from '../../models/answer';
 
+import { AuthService } from '../../services/auth';
+import { User } from '../../models/auth';
+import { Subject, takeUntil, Observable } from 'rxjs';
+
 @Component({
   selector: 'app-question-detail',
   standalone: true,
@@ -16,13 +20,16 @@ import { Answer } from '../../models/answer';
   templateUrl: './question-detail.html',
   styleUrl: './question-detail.scss',
 })
-export class QuestionDetail {
+export class QuestionDetail implements OnInit, OnDestroy {
 
   question?: Question;
   answers: Answer[] = [];
 
   votingInProgress = false;
   votedAnswers: Set<number> = new Set();
+
+  private destroy$ = new Subject<void>();
+  currentUser$!: Observable<User | null>;
 
   answerForm = new FormGroup({
     body: new FormControl('', {
@@ -36,8 +43,9 @@ export class QuestionDetail {
   });
 
   constructor(
+    private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
     private questionService: QuestionService,
     private answerService: AnswerService,
     private changeDetectorRef: ChangeDetectorRef
@@ -45,6 +53,7 @@ export class QuestionDetail {
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
+    this.currentUser$ = this.authService.currentUser$;
 
     if (!idParam) {
       this.router.navigate(['/questions']);
@@ -54,8 +63,23 @@ export class QuestionDetail {
     const id = Number(idParam);
     console.log('Detail route id:', id);
 
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user: User | null) => {
+        if (!user) return;
+        const ctrl = this.answerForm.controls.createdBy;
+        if (!ctrl.value){
+          ctrl.setValue(user.email);
+        }
+      });
+
     this.loadQuestion(id);
     this.loadAnswers(id);
+  }
+
+  ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
   }
 
   loadQuestion(id: number): void {
@@ -97,7 +121,7 @@ export class QuestionDetail {
         next: (newAnswer) =>
         {
           this.answers = [newAnswer, ...this.answers];
-          this.answerForm.reset();
+          this.answerForm.controls.body.reset('');
           this.changeDetectorRef.detectChanges();
         },
         error: (err) => {

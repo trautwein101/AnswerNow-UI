@@ -63,6 +63,7 @@
             <th>Email</th>
             <th>Role</th>
             <th>Joined</th>
+            <th>Updated</th>
             <th>Questions</th>
             <th>Answers</th>
             <th>Status</th>
@@ -79,32 +80,66 @@
             <td>{{ user.email }}</td>
             
             <td>
-              <select 
-                (change)="onRoleChange(user, $any($event.target).value)"
-                class="role-select"
-                [class.role-admin]="user.role === 'Admin'"
-                [class.role-moderator]="user.role === 'Moderator'">
-                <option *ngFor="let role of availableRoles" 
-                        [value]="role"
-                        [selected]="role === user.role">
-                  {{ role }}
-                </option>
-              </select>
+             <select
+              class="role-select"
+              [(ngModel)]="user.role"
+              (ngModelChange)="onRoleChange(user, $event)"
+              [ngModelOptions]="{ standalone: true }"
+              [class.role-admin]="user.role === 'Admin'"
+              [class.role-moderator]="user.role === 'Moderator'">
+
+              <option *ngFor="let role of availableRoles" [ngValue]="role">
+                {{ role }}
+              </option>
+            </select>
             </td>
             
             <td>{{ formatDate(user.dateCreated) }}</td>
+
+             <td>{{ formatDate(user.dateUpdated) }}</td>
             
             <td class="center">{{ user.questionCount }}</td>
             
             <td class="center">{{ user.answerCount }}</td>
             
+            <!-- User can be acive but suspended ~ banned mean they are no longer active -->
             <td>
-              <span class="status-badge" [class.active]="!user.isBanned" [class.banned]="user.isBanned">
-                {{ user.isBanned ? 'Banned' : 'Active' }}
-              </span>
-            </td>
-            
+              <span class="status-badge" [ngClass]="getUserStatusClass(user)">
+                {{ getUserStatus(user) }}
+              </span>         
+            </td>           
             <td>
+              <button
+              (click)="toggleActive(user)"
+              class="action-btn"
+              [class.activate-btn]="!user.isActive"
+              [class.deactivate-btn]="user.isActive">
+              {{ user.isActive ? 'Deactivate' : 'Activate' }}
+              </button>
+
+              &nbsp;&nbsp;&nbsp;
+
+
+              <button
+              (click)="togglePending(user)"
+              class="action-btn"
+              [class.pending-btn]="!user.isPending"
+              [class.unpending-btn]="user.isPending">
+              {{ user.isPending ? 'Unpending' : 'Pending' }}
+              </button>
+
+              &nbsp;&nbsp;&nbsp; 
+
+              <button
+                (click)="toggleSuspend(user)"
+                class="action-btn"
+                [class.suspend-btn]="!user.isSuspended"
+                [class.unsuspend-btn]="user.isSuspended">
+                {{ user.isSuspended ? 'Unsuspend' : 'Suspend' }}
+                </button>
+
+              &nbsp;&nbsp;&nbsp; 
+
               <button 
                 (click)="toggleBan(user)" 
                 class="action-btn"
@@ -112,6 +147,7 @@
                 [class.unban-btn]="user.isBanned">
                 {{ user.isBanned ? 'Unban' : 'Ban' }}
               </button>
+
             </td>
             
           </tr>

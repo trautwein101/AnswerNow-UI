@@ -1,74 +1,119 @@
-<a routerLink="/questions">&larr; Back to Questions</a>
+<a routerLink="/questions" class="back-link">&larr; Back to Questions</a>
 
-<div *ngIf="question; else loading">
-  <h2>{{ question.title }}</h2>
-  <p>{{ question.body }}</p>
+<div class="question-detail-page" *ngIf="question; else loading">
 
-  <small>
-    Asked on {{ question?.dateCreated | date:'medium' }}
-    by {{ question?.createdBy }}
-  </small>
+  <!-- Question -->
+  <section class="question-section">
+    <div class="question-header">
+      <h1>{{ question.title }}</h1>
 
-  <hr>
-  <h3>Answers ({{ answers.length }})</h3>
-  <div *ngIf="answers.length > 0; else noAnswers">
-    <div *ngFor="let answer of answers" class="answer-card">   
-      
-      <!-- Vote Section -->
-      <div class="vote-section">
-          <button 
-            class="vote-btn upvote" 
+      <div class="question-meta">
+        <div class="meta-item">
+          Asked on {{ question.dateCreated | date:'medium' }}
+        </div>
+        <div class="meta-item">
+          by {{ question.createdBy }}
+        </div>
+      </div>
+    </div>
+
+    <div class="question-body">
+      <p>{{ question.body }}</p>
+    </div>
+  </section>
+
+  <!-- Answers -->
+  <section class="answers-section">
+    <h2>
+      Answers
+      <span class="answer-count">{{ answers.length }}</span>
+    </h2>
+
+    <div *ngIf="answers.length > 0; else noAnswers">
+      <div *ngFor="let answer of answers" class="answer-card">
+
+        <!-- Vote Section -->
+        <div class="vote-section">
+          <button
+            type="button"
+            class="vote-btn upvote"
             (click)="voteOnAnswer(answer.id, true)"
             [disabled]="votingInProgress || hasVoted(answer.id)"
             [class.voted]="hasVoted(answer.id)">
             ▲
           </button>
-          <span class="vote-score" 
+
+          <span class="vote-score"
                 [class.positive]="answer.voteScore > 0"
                 [class.negative]="answer.voteScore < 0">
             {{ answer.voteScore }}
           </span>
-          <button 
-            class="vote-btn downvote" 
+
+          <button
+            type="button"
+            class="vote-btn downvote"
             (click)="voteOnAnswer(answer.id, false)"
             [disabled]="votingInProgress || hasVoted(answer.id)"
             [class.voted]="hasVoted(answer.id)">
             ▼
           </button>
-        <small *ngIf="hasVoted(answer.id)" class="voted-label">Voted!</small>
+
+          <small *ngIf="hasVoted(answer.id)" class="voted-label">Voted!</small>
+        </div>
+
+        <!-- Answer Content -->
+        <div class="answer-content">
+          <div class="answer-body">
+            {{ answer.body }}
+          </div>
+
+          <div class="answer-meta">
+            <span>Answered on {{ answer.dateCreated | date:'medium' }}</span>
+            <span>by {{ answer.createdBy }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <ng-template #noAnswers>
+      <p class="empty-state">No answers yet. Be the first to answer!</p>
+    </ng-template>
+  </section>
+
+  <!-- Your Answer -->
+  <section class="answer-form">
+    <h3>Your Answer</h3>
+
+    <form [formGroup]="answerForm" (ngSubmit)="submitAnswer()">
+      <div class="form-group">
+        <label for="answerBody" class="form-label">Your Answer</label>
+        <textarea
+          id="answerBody"
+          class="form-control"
+          formControlName="body"
+          rows="6"
+          placeholder="Share your knowledge..."></textarea>
       </div>
 
-       <!-- Answer Content -->
-      <p>{{ answer.body }}</p>
-      <small>
-        Answered on {{ answer.dateCreated | date: 'medium' }}
-        by {{ answer.createdBy }}
-      </small>
-    </div>
-  </div>
+      <div class="form-group">
+        <label for="answerCreatedBy" class="form-label">Your Email</label>
+        <input
+          id="answerCreatedBy"
+          class="form-control"
+          type="email"
+          formControlName="createdBy"
+          placeholder="you@example.com" />
+      </div>
 
-  <ng-template #noAnswers>
-    <p>No answers yet. Be the first to answer!</p>
-  </ng-template>
+      <button class="btn btn-primary" type="submit" [disabled]="answerForm.invalid">
+        Post Your Answer
+      </button>
+    </form>
+  </section>
 
-  <hr>
-  <h3>Your Answer</h3>
-
-  <form [formGroup]="answerForm" (ngSubmit)="submitAnswer()">
-
-    <div>
-      <label for="answerBody">Your Answer</label>
-      <textarea id="answerBody" formControlName="body" rows="4" placeholder="Share your knowledge..."></textarea>
-    </div>
-
-    <div>
-      <label for="createdBy">Your Email</label>
-      <input id="answerCreatedBy" type="email" formControlName="createdBy" placeholder="you@example.com" />
-    </div>
-    <button type="submit" [disabled]="answerForm.invalid">Post Your Answer</button>
-  </form>
 </div>
 
 <ng-template #loading>
-  <p>Loading question</p>
+  <p class="loading">Loading question...</p>
 </ng-template>

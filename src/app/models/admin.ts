@@ -16,9 +16,11 @@ export interface Users{
     displayName: string;
     role: string;
     isProfessional: boolean;
-    isBanned: boolean;
     isActive: boolean;
+    isInActive: boolean; 
+    isPending: boolean
     isSuspended: boolean;
+    isBanned: boolean; 
     dateCreated: string; 
     dateUpdated: string;
     questionCount: number;

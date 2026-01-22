@@ -8,6 +8,25 @@
   }
 }
 
+/* -------------------------
+   Back link
+-------------------------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+/* -------------------------
+   Question section
+-------------------------- */
 .question-section {
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
@@ -47,13 +66,16 @@
 
   p {
     margin-bottom: var(--space-4);
-    
+
     &:last-child {
       margin-bottom: 0;
     }
   }
 }
 
+/* -------------------------
+   Answers section
+-------------------------- */
 .answers-section {
   margin-top: var(--space-8);
 
@@ -73,6 +95,9 @@
   }
 }
 
+/* -------------------------
+   Answer card
+-------------------------- */
 .answer-card {
   display: flex;
   gap: var(--space-5);
@@ -83,6 +108,9 @@
   margin-bottom: var(--space-4);
 }
 
+/* -------------------------
+   Voting
+-------------------------- */
 .vote-section {
   display: flex;
   flex-direction: column;
@@ -134,6 +162,8 @@
   font-size: var(--text-xl);
   font-weight: var(--font-bold);
   color: var(--text-secondary);
+  min-width: 2ch;
+  text-align: center;
 
   &.positive {
     color: var(--color-success);
@@ -150,6 +180,9 @@
   font-weight: var(--font-medium);
 }
 
+/* -------------------------
+   Answer content
+-------------------------- */
 .answer-content {
   flex: 1;
 
@@ -157,6 +190,7 @@
     color: var(--text-primary);
     line-height: var(--leading-relaxed);
     margin-bottom: var(--space-4);
+    overflow-wrap: anywhere;
   }
 
   .answer-meta {
@@ -168,6 +202,9 @@
   }
 }
 
+/* -------------------------
+   Answer form
+-------------------------- */
 .answer-form {
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
@@ -184,6 +221,22 @@
   }
 }
 
+/* -------------------------
+   Empty / loading states
+-------------------------- */
+.empty-state {
+  color: var(--text-secondary);
+  padding: var(--space-4) 0;
+}
+
+.loading {
+  color: var(--text-secondary);
+  padding: var(--space-6);
+}
+
+/* -------------------------
+   Login prompt
+-------------------------- */
 .login-prompt {
   background: var(--bg-tertiary);
   border-radius: var(--radius-lg);
@@ -197,15 +250,17 @@
   }
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--text-secondary);
-  font-size: var(--text-sm);
-  margin-bottom: var(--space-4);
+/* -------------------------
+   Mobile tweaks
+-------------------------- */
+@media (max-width: 768px) {
+  .answer-card {
+    flex-direction: column;
+  }
 
-  &:hover {
-    color: var(--color-primary);
+  .vote-section {
+    flex-direction: row;
+    justify-content: flex-start;
+    min-width: auto;
   }
 }

@@ -1,10 +1,9 @@
-import { Component } from "@angular/core";  
+import { Component, ChangeDetectorRef, NgZone } from "@angular/core";  
 import { CommonModule } from "@angular/common";
 import { RouterModule, Router, ActivatedRoute } from "@angular/router";
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth";
-import { email } from "@angular/forms/signals";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,9 @@ import { email } from "@angular/forms/signals";
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
+
 export class Login {
+
     loginForm = new FormGroup({
         email: new FormControl('', {
             nonNullable: true,
@@ -31,11 +32,16 @@ export class Login {
     constructor(
         private authService: AuthService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private cdr: ChangeDetectorRef,
+        private zone: NgZone
     ){}
     
     onSubmit(): void {
+        if (this.isLoading) return; // Prevent multiple submissions smokey
+
         if(this.loginForm.invalid) {
+            this.loginForm.markAllAsTouched();
             return;
         }
 
@@ -47,15 +53,24 @@ export class Login {
         this.authService.login({email: email!, password: password! })
         .subscribe({
             next: () => {
-                //redirect after login
-                const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                this.router.navigate([returnUrl]);
+                this.zone.run(() => {
+                    this.isLoading = false;
+                    this.cdr.markForCheck();
+                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                    this.router.navigate([returnUrl]);
+                });
             },
             error: (err) => {
+                this.zone.run(() => {
                 this.isLoading = false;
                 this.errorMessage = 'Invalid email or password';
+                this.cdr.markForCheck();
+                });
                 console.error('Login error:', err);
             }
         });
     }
+
+
+
 }

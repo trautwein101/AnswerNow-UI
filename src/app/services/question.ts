@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from "../../../src/environments/environment";
 import { Question } from '../models/question';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Question } from '../models/question';
 })
 export class QuestionService {
 
-  private apiUrl = 'https://localhost:7252/api/Question';
+  private readonly apiUrl = `${environment.apiBaseUrl}/Question`;
 
   constructor(private http: HttpClient) {}
 

@@ -6,6 +6,10 @@ export interface AdminStats{
   newUsersThisWeek: number;
   newQuestionsThisWeek: number;
   newAnswersThisWeek: number;
+  totalIsFlaggedQuestions: number;
+  totalisFlaggedAnswers: number;
+  newIsFaggedQuestionsThisWeek: number;
+  newIsFlaggedAnswersThisWeek: number;
 }
 
 
@@ -21,6 +25,7 @@ export interface Users{
     isPending: boolean
     isSuspended: boolean;
     isBanned: boolean; 
+    lastLogin: string;
     dateCreated: string; 
     dateUpdated: string;
     questionCount: number;

@@ -12,7 +12,7 @@
           Asked on {{ question.dateCreated | date:'medium' }}
         </div>
         <div class="meta-item">
-          by {{ question.createdBy }}
+          by {{ question.createdByDisplayName || question.createdByEmail }}
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
     </h2>
 
     <div *ngIf="answers.length > 0; else noAnswers">
-      <div *ngFor="let answer of answers" class="answer-card">
+      <div *ngFor="let answer of answers; trackBy: trackByAnswerId" class="answer-card">
 
         <!-- Vote Section -->
         <div class="vote-section">
@@ -69,7 +69,7 @@
 
           <div class="answer-meta">
             <span>Answered on {{ answer.dateCreated | date:'medium' }}</span>
-            <span>by {{ answer.createdBy }}</span>
+            <span>by {{ answer.createdByDisplayName || answer.createdByEmail }}</span>
           </div>
         </div>
 

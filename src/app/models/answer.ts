@@ -4,11 +4,15 @@ export interface Answer{
     questionId: number;
     body: string;
     userId: number;
-    createdBy: string;
+    createdByEmail: string;
+    createdByDisplayName: string;
     upVotes: number;
     downVotes: number;
     isFlagged: boolean;
-    voteScore: number;
+    isDeleted: boolean;
+    dateDeleted: string | null;
     dateCreated: string;
     dateUpdated: string; 
 }
+
+export type AnswerVm = Answer & { voteScore: number}

@@ -28,4 +28,6 @@ export class AnswerService {
     return this.http.post<Answer>(`${this.apiUrl}/${answerId}/vote?isUpVote=${isUpVote}`, {});
   }
 
+  
+
 }

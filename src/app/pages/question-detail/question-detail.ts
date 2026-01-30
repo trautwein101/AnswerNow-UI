@@ -7,7 +7,7 @@ import { QuestionService } from '../../services/question';
 import { AnswerService } from '../../services/answer';
 
 import { Question } from '../../models/question';
-import { Answer } from '../../models/answer';
+import { Answer, AnswerVm } from '../../models/answer';
 
 import { AuthService } from '../../services/auth';
 import { User } from '../../models/auth';
@@ -23,7 +23,7 @@ import { Subject, takeUntil, Observable } from 'rxjs';
 export class QuestionDetail implements OnInit, OnDestroy {
 
   question?: Question;
-  answers: Answer[] = [];
+  answers: AnswerVm[] = [];
 
   votingInProgress = false;
   votedAnswers: Set<number> = new Set();
@@ -100,7 +100,12 @@ export class QuestionDetail implements OnInit, OnDestroy {
     this.answerService.getAnswersByQuestionId(questionId)
       .subscribe({
         next: (answers) => {
-          this.answers = answers;
+          this.answers = answers
+          .map(a => ({
+            ...a,
+            voteScore: a.upVotes - a.downVotes
+          }))
+          .sort((a, b) => b.voteScore - a.voteScore);
           this.changeDetectorRef.detectChanges();
         },
         error: (err) => {
@@ -120,7 +125,13 @@ export class QuestionDetail implements OnInit, OnDestroy {
       .subscribe({
         next: (newAnswer) =>
         {
-          this.answers = [newAnswer, ...this.answers];
+          const newAnswerVm: AnswerVm = {
+            ...newAnswer,
+            voteScore: newAnswer.upVotes - newAnswer.downVotes
+          };
+
+          this.answers = [newAnswerVm, ...this.answers]
+          .sort((a, b) => b.voteScore - a.voteScore);
           this.answerForm.controls.body.reset('');
           this.changeDetectorRef.detectChanges();
         },
@@ -130,7 +141,7 @@ export class QuestionDetail implements OnInit, OnDestroy {
       });  
   }
 
- // REPLACE your voteOnAnswer method with this:
+
   voteOnAnswer(answerId: number, isUpVote: boolean): void {
     // Prevent if already voting or already voted on this answer
     if (this.votingInProgress || this.votedAnswers.has(answerId)) {
@@ -142,13 +153,15 @@ export class QuestionDetail implements OnInit, OnDestroy {
     this.answerService.voteOnAnswer(answerId, isUpVote)
       .subscribe({
         next: (updatedAnswer) => {
-          // Update the answer in our array
-          this.answers = this.answers.map(a =>
-            a.id === answerId ? updatedAnswer : a
-          );
+          const updatedAnswerVm: AnswerVm = {
+            ...updatedAnswer,
+            voteScore: updatedAnswer.upVotes - updatedAnswer.downVotes
+          };
 
-          // Re-sort by vote score
-          this.answers.sort((a, b) => b.voteScore - a.voteScore);
+          // Update the answer in our array
+          this.answers = this.answers
+          .map(a => a.id === answerId ? updatedAnswerVm : a)
+          .sort((a, b) => b.voteScore - a.voteScore);
 
           // Mark this answer as voted
           this.votedAnswers.add(answerId);
@@ -163,9 +176,12 @@ export class QuestionDetail implements OnInit, OnDestroy {
       });
   }
 
-  // Helper method to check if user has voted on an answer
   hasVoted(answerId: number): boolean {
     return this.votedAnswers.has(answerId);
   } 
+
+  trackByAnswerId(_: number, answer: AnswerVm): number {
+      return answer.id;
+    }
 
 }

@@ -4,8 +4,11 @@ export interface Question {
   title: string;
   body: string;
   userId: number;
-  createdBy: string; 
+  createdByEmail: string;
+  createdByDisplayName: string;
   isFlagged: boolean;
+  isDeleted: boolean;
+  dateDeleted: string | null;  
   dateCreated: string;
-  dateUpdated: string;  
+  dateUpdated: string;
 }

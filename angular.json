@@ -41,7 +41,43 @@
             ]
           },
           "configurations": {
-            "production": {
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all"
+            },
+
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all"
+            },
+
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -53,29 +89,31 @@
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
                 }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "answernow-ui:build:production"
-            },
-            "development": {
-              "buildTarget": "answernow-ui:build:development"
+              ]
             }
           },
           "defaultConfiguration": "development"
         },
+
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "answernow-ui:build:development"
+            },
+            "dev": {
+              "buildTarget": "answernow-ui:build:dev"
+            },
+            "qa": {
+              "buildTarget": "answernow-ui:build:qa"
+            },
+            "prod": {
+              "buildTarget": "answernow-ui:build:prod"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+
         "test": {
           "builder": "@angular/build:unit-test"
         }

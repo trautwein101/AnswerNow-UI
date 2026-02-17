@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.theanswerplace.com/api'
+  apiBaseUrl: 'https://api.answernowplace.com/api'
 };

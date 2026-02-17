@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiBaseUrl: 'https://qa.theanswerplace.com/api'
+  production: false,
+  apiBaseUrl: 'https://api.qa.answernowplace.com/api'
 };

@@ -1,59 +1,40 @@
-# AnswernowUi
+AnswerNow UI (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+The project follows a component-based architecture separating UI presentation, routing, and API communication concerns.
 
-## Development server
+---
 
-To start a local development server, run:
+## Architecture Overview
 
-```bash
-ng serve
-```
+### Local Development
+Angular SPA → .NET API → PostgreSQL (Docker)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### AWS Production Deployment
+CloudFront → API Gateway (HTTP API) → Lambda (.NET 8) → RDS PostgreSQL
 
-## Code scaffolding
+The AWS environment includes:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Custom domain (Route53 + ACM)
+- CloudWatch alarms
+- SNS notifications (email)
+- Budget monitoring
+- Environment-based configuration (DEV / QA / PROD)
 
-```bash
-ng generate component component-name
-```
+For a full technical breakdown, see:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+➡️ **docs/architecture.md**  
 
-```bash
-ng generate --help
-```
+➡️ **docs/aws-deployment.md**
 
-## Building
+---
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Key Features
+- Angular v20
+- Component-based UI architecture
+- Route guards for protected navigation
+- HTTP interceptors for JWT handling
+- JWT-based authentication (access + refresh token flow)
+- Environment-specific configuration
+- Reactive programming using RxJS
+- Static hosting via S3 + CloudFront
+- Cost-conscious cloud deployment decisions

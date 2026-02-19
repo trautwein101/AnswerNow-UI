@@ -80,22 +80,7 @@ Notes:
 
 # Frontend Application Architecture 
 
-src/
-├── app/
-│   ├── components/      # Reusable UI components
-│   ├── pages/           # Routed feature views
-│   ├── services/        # API communication layer
-│   ├── models/          # TypeScript interfaces
-│   ├── guards/          # Route protection
-│   ├── interceptors/    # JWT injection
-│   ├── app.module.ts
-│   ├── app-routing.module.ts
-│   └── app.scss
-│
-├── environments/        # DEV / QA / PROD configs
-├── styles/
-├── index.html
-└── main.ts
+![Frontend Application Architecture](images/front-end-app-arch.png)
 
 This structure enforces separation between:
 - UI presentation

@@ -29,7 +29,7 @@ For a full technical breakdown, see:
 ---
 
 ## Key Features
-- Angular v20
+- Angular V^21.0.0
 - Component-based UI architecture
 - Route guards for protected navigation
 - HTTP interceptors for JWT handling

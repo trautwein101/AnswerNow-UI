@@ -6,12 +6,12 @@
 AnswerNow UI is the Angular frontend for the AnswerNow full-stack Q&A platform.
 
 It is designed to demonstrate:
-- Modern Angular v20 architecture
+- Modern Angular v21 architecture
 - Environment-based configuration (DEV / QA / PROD)
 - Secure JWT-based authentication handling
 - Production-grade static hosting using AWS S3 + CloudFront
 - Clean separation of UI, routing, and API integration concerns
-- Real-world cloud deployment practice
+- Cloud deployment
 
 ---
 
@@ -42,7 +42,7 @@ The following screenshots demonstrate the deployed production UI and feature set
 
 ---
 
-# High-Level Architecture
+## High-Level Architecture
 
 ## Local Development
 
@@ -67,18 +67,18 @@ Notes:
 
 # CloudFront-hosted Angular SPA
 → API Gateway (HTTP API)
-→ Lambda (.NET 8)
+→ Lambda (.NET 8 backend) 
 → Amazon RDS PostgreSQL
 
 # Security considerations:
 - HTTPS enforced via ACM certificate
-- JWT access token stored client-side
-- Refresh token flow handled securely via backend validation
+- JWT access token stored client-side and attached to API requests via HTTP interceptor
+- Refresh token validation handled entirely by the backend
 - No secrets embedded in frontend code
 
 ---
 
-# Frontend Application Architecture 
+## Frontend Application Architecture 
 
 ![Frontend Application Architecture](images/front-end-app-arch.png)
 
@@ -91,7 +91,7 @@ This structure enforces separation between:
 
 ---
 
-# Configuration Strategy
+## Configuration Strategy
 
 The application supports:
 - DEV
@@ -108,25 +108,25 @@ Build-time replacement ensures the correct configuration is bundled per environm
 
 ---
 
-# Authentication Flow (Frontend Perspective)
+## Authentication Flow (Frontend Perspective)
 1. User logs in via Angular UI.
 2. API returns:
-- Short-lived JWT access token
-- Longer-lived refresh token (stored server-side in DB).
+   - Short-lived JWT access token
+   - Longer-lived refresh token (stored server-side in the database).
 3. Access token is attached to outgoing requests using an HTTP interceptor.
 4. When the access token expires:
-- Angular sends refresh request
-- Backend validates refresh token ~ I currently set it to 15 minutes
-- New access token is issued
+   - Angular sends a refresh request
+   - Backend validates the refresh token (configured expiration currently set to 15 minutes)
+   - A new access token is issued.
 
 # Security Notes:
 - JWT signing keys are never stored in the frontend.
 - Token validation is handled entirely by the backend.
-- Secrets are managed by the backend using AWS Secrets Manager
+- Secrets are managed by the backend using AWS Secrets Manager.
 
 ---
 
-# Hosting Strategy Frontend Stack
+## Hosting Strategy Frontend Stack
 - S3 bucket (private origin)
 - CloudFront distribution
 - Route53 DNS record
@@ -137,7 +137,7 @@ Static assets are cached globally via CloudFront for performance.
 ---
 
 ## Environment Strategy
-Seperate stacks exist for DEV/QA/PROD
+Separate stacks exist for **DEV / QA / PROD**.
 
 Each environment has:
 - Dedicated CloudFront distribution
@@ -147,7 +147,7 @@ Each environment has:
 
 ---
 
-# Cost-Conscious Design Decisions
+## Cost-Conscious Design Decisions
 
 Examples of intentional tradeoffs:
 - Static hosting instead of SSR/Node server
@@ -158,11 +158,11 @@ Examples of intentional tradeoffs:
 
 ---
 
-# Design Goals
+## Design Goals
 
 This project demonstrates:
 
-- Modern Angular architecture (v20)
+- Modern Angular architecture (v21)
 - Secure frontend authentication integration
 - Production-grade static hosting
 - Environment isolation

@@ -2,7 +2,7 @@
 
 AnswerNow UI is deployed as a static site using:
 
-- Amazon S3 (static hosting origin)
+- Amazon S3 (private origin for CloudFront)
 - Amazon CloudFront (CDN + HTTPS)
 - Route53 (DNS)
 - ACM (SSL certificate)
@@ -12,31 +12,32 @@ This document captures the deployment workflow used for DEV/QA/PROD environments
 
 ---
 
-# Prerequisites
+## Prerequisites
 
 - AWS CLI installed
 - AWS credentials configured
 - Route53 hosted zone
-- ACM certificate (must be created in us-east-1 for CloudFront)
+- ACM certificate created in **us-east-1** for CloudFront
 - Region set appropriately for stack deployment
 
 ---
 
-## Verifaction Tools:
+## Verification Tools:
 
 # Verify AWS CLI:
 aws --version
 
 # Verify Credentials:
--> aws sts get-caller-identity
+aws --version
+aws sts get-caller-identity
 
 # Build Angular Application:
--> npm install
--> ng build --configuration production
+npm install
+ng build --configuration production
 
 ---
 
-## CloudFormation via AWS CLI (DEV)
+## CloudFormation via AWS CLI (ENV)
 
 aws cloudformation deploy \
   --template-file frontend-prod.yaml \
@@ -48,10 +49,10 @@ aws cloudformation deploy \
 ---
 
 ## Frontend Stack Provisions:
-- S3 bucket (static hosting origin)
+- S3 bucket (private origin for CloudFront)
 - CloudFront distribution
 - Route53 alias record
-- ACM certificate reference
+- ACM certificate attachment for CloudFront
 
 ---
 

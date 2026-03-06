@@ -1,6 +1,6 @@
-AnswerNow UI (Angular)
+# AnswerNow UI (Angular)
 
-The project follows a component-based architecture separating UI presentation, routing, and API communication concerns.
+The application follows a component-based architecture that separates UI presentation, routing/navigation, and backend API communication.
 
 ---
 
@@ -10,7 +10,7 @@ The project follows a component-based architecture separating UI presentation, r
 Angular SPA → .NET API → PostgreSQL (Docker)
 
 ### AWS Production Deployment
-CloudFront → API Gateway (HTTP API) → Lambda (.NET 8) → RDS PostgreSQL
+CloudFront (Angular static hosting) → API Gateway (HTTP API) → Lambda (.NET 8) → RDS PostgreSQL
 
 The AWS environment includes:
 
@@ -29,7 +29,7 @@ For a full technical breakdown, see:
 ---
 
 ## Key Features
-- Angular V^21.0.0
+- Angular 21 (standalone + RxJS)
 - Component-based UI architecture
 - Route guards for protected navigation
 - HTTP interceptors for JWT handling

@@ -11,6 +11,11 @@
         <a routerLink="/questions" routerLinkActive="active">Questions</a>
     </nav>
 
+    <div class="header-actions" *ngIf="demoMode">
+        <a routerLink="/admin" class="btn btn-danger btn-sm">Dashboard Demo</a>
+        <a routerLink="/login" class="btn btn-success btn-sm">Login</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
+    </div>
     <div class="header-actions" *ngIf="!demoMode">
         <ng-container *ngIf="currentUser$ | async as user; else loginLinks">
             <!-- User is logged in -->

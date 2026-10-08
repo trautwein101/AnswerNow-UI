@@ -18,10 +18,12 @@ import { authGuard } from './guards/auth.guard';
 
 const liveOnly: CanActivateFn = () => !environment.demoMode || inject(Router).createUrlTree(['/questions']);
 
+const dashboardAccess: CanActivateFn = (route, state) => environment.demoMode || adminGuard(route, state);
+
 const routes: Routes = [
   { path: '', component: Home },
-  { path: 'login', component: Login, canActivate: [liveOnly] },
-  { path: 'register', component: Register, canActivate: [liveOnly] },
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
   { path: 'questions', component: QuestionList },
   { path: 'questions/new', 
     component: QuestionCreate,
@@ -30,7 +32,7 @@ const routes: Routes = [
   { path: 'questions/:id', component: QuestionDetail },
   { path: 'admin',
     component: AdminDashboard,
-    canActivate: [liveOnly, adminGuard] //Protected via admin role
+    canActivate: [dashboardAccess] //Protected via admin role
   }
 ];
 

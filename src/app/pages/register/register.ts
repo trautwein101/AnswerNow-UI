@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule, Router } from "@angular/router";
@@ -12,7 +13,8 @@ import { AuthService } from "../../services/auth";
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register{
+export class Register {
+  readonly demoMode = environment.demoMode;
 
   registerForm = new FormGroup({
     email: new FormControl('', {
@@ -38,6 +40,7 @@ constructor(
 ) {}
 
 onSubmit(): void {
+    if (this.demoMode) return;
     if (this.registerForm.invalid) {
       return;
     }

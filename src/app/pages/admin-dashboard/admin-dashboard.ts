@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,7 @@ import { UserRoles } from '../../models/auth';
 })
 
 export class AdminDashboard implements OnInit {
+  readonly demoMode = environment.demoMode;
   
   stats: AdminStats | null = null;
   users: Users[] = [];
@@ -78,6 +80,7 @@ export class AdminDashboard implements OnInit {
   }
 
   onRoleChange(user: Users, newRole: string): void {
+    if (this.demoMode) return;
     this.adminService.changeUserRole(user.id, newRole).subscribe({
       next: (updatedUser) => this.applyUserUpdate(user, updatedUser),
       error: (err) => this.handleError(
@@ -88,6 +91,7 @@ export class AdminDashboard implements OnInit {
   }
 
   toggleActive(user: Users): void {
+    if (this.demoMode) return;
     const newActiveStatus = !user.isActive;
     this.adminService.setUserActiveStatus(user.id, newActiveStatus).subscribe({
       next: (updatedUser) => this.applyUserUpdate(user, updatedUser),
@@ -99,6 +103,7 @@ export class AdminDashboard implements OnInit {
   }
 
   togglePending(user : Users): void {
+    if (this.demoMode) return;
     const newPendingStatus = !user.isPending;
     this.adminService.setUserPendingStatus(user.id, newPendingStatus).subscribe({
       next: (updatedUser) => this.applyUserUpdate(user, updatedUser),
@@ -110,6 +115,7 @@ export class AdminDashboard implements OnInit {
   }
 
   toggleSuspend(user: Users): void {
+    if (this.demoMode) return;
     const newSuspendStatus = !user.isSuspended;
     this.adminService.setUserSuspendStatus(user.id, newSuspendStatus).subscribe({
       next: (updatedUser) => this.applyUserUpdate(user, updatedUser),
@@ -121,6 +127,7 @@ export class AdminDashboard implements OnInit {
   }
 
    toggleBan(user: Users): void {
+    if (this.demoMode) return;
     const newBanStatus = !user.isBanned;
     this.adminService.setUserBanStatus(user.id, newBanStatus).subscribe({
       next: (updatedUser) => this.applyUserUpdate(user, updatedUser),

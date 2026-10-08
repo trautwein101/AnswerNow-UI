@@ -9,6 +9,8 @@
     <button (click)="errorMessage = ''">&times;</button>
   </div>
 
+  <p *ngIf="demoMode" class="demo-notice" role="note">Dashboard demo ? Fictional users and sample statistics. Role changes and account management are disabled.</p>
+
   <section class="stats-section">
     <h2>Platform Statistics</h2>
     
@@ -82,6 +84,7 @@
             <td>
              <select
               class="role-select"
+              [disabled]="demoMode"
               [(ngModel)]="user.role"
               (ngModelChange)="onRoleChange(user, $event)"
               [ngModelOptions]="{ standalone: true }"
@@ -112,6 +115,7 @@
               <button
               (click)="toggleActive(user)"
               class="action-btn"
+              [disabled]="demoMode"
               [class.activate-btn]="!user.isActive"
               [class.deactivate-btn]="user.isActive">
               {{ user.isActive ? 'Deactivate' : 'Activate' }}
@@ -123,6 +127,7 @@
               <button
               (click)="togglePending(user)"
               class="action-btn"
+              [disabled]="demoMode"
               [class.pending-btn]="!user.isPending"
               [class.unpending-btn]="user.isPending">
               {{ user.isPending ? 'Unpending' : 'Pending' }}
@@ -133,6 +138,7 @@
               <button
                 (click)="toggleSuspend(user)"
                 class="action-btn"
+              [disabled]="demoMode"
                 [class.suspend-btn]="!user.isSuspended"
                 [class.unsuspend-btn]="user.isSuspended">
                 {{ user.isSuspended ? 'Unsuspend' : 'Suspend' }}
@@ -143,6 +149,7 @@
               <button 
                 (click)="toggleBan(user)" 
                 class="action-btn"
+              [disabled]="demoMode"
                 [class.ban-btn]="!user.isBanned"
                 [class.unban-btn]="user.isBanned">
                 {{ user.isBanned ? 'Unban' : 'Ban' }}

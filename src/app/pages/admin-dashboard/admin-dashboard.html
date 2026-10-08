@@ -13,13 +13,13 @@
 
   <section class="stats-section">
     <h2>Platform Statistics</h2>
-    
+
     <div *ngIf="isLoadingStats" class="loading">
       Loading statistics...
     </div>
-    
+
     <div *ngIf="!isLoadingStats && stats" class="stats-grid">
-      
+
       <div class="stat-card">
         <div class="stat-icon">👥</div>
         <div class="stat-content">
@@ -28,7 +28,7 @@
         </div>
         <div class="stat-change positive">+{{ stats.newUsersThisWeek }} this week</div>
       </div>
-      
+
       <div class="stat-card">
         <div class="stat-icon">❓</div>
         <div class="stat-content">
@@ -37,7 +37,7 @@
         </div>
         <div class="stat-change positive">+{{ stats.newQuestionsThisWeek }} this week</div>
       </div>
-      
+
       <div class="stat-card">
         <div class="stat-icon">💬</div>
         <div class="stat-content">
@@ -46,17 +46,17 @@
         </div>
         <div class="stat-change positive">+{{ stats.newAnswersThisWeek }} this week</div>
       </div>
-      
+
     </div>
   </section>
 
   <section class="users-section">
     <h2>User Management</h2>
-    
+
     <div *ngIf="isLoadingUsers" class="loading">
       Loading users...
     </div>
-    
+
     <div *ngIf="!isLoadingUsers" class="table-container">
       <table class="users-table">
         <thead>
@@ -74,13 +74,13 @@
         </thead>
         <tbody>
           <tr *ngFor="let user of users" [class.banned]="user.isBanned">
-            
+
             <td class="user-cell">
               <span class="user-name">{{ user.displayName }}</span>
             </td>
-            
+
             <td>{{ user.email }}</td>
-            
+
             <td>
              <select
               class="role-select"
@@ -96,21 +96,21 @@
               </option>
             </select>
             </td>
-            
+
             <td>{{ formatDate(user.dateCreated) }}</td>
 
              <td>{{ formatDate(user.dateUpdated) }}</td>
-            
+
             <td class="center">{{ user.questionCount }}</td>
-            
+
             <td class="center">{{ user.answerCount }}</td>
-            
+
             <!-- User can be acive but suspended ~ banned mean they are no longer active -->
             <td>
               <span class="status-badge" [ngClass]="getUserStatusClass(user)">
                 {{ getUserStatus(user) }}
-              </span>         
-            </td>           
+              </span>
+            </td>
             <td>
               <button
               (click)="toggleActive(user)"
@@ -121,7 +121,7 @@
               {{ user.isActive ? 'Deactivate' : 'Activate' }}
               </button>
 
-<button
+              <button
               (click)="togglePending(user)"
               class="action-btn"
               [disabled]="demoMode"
@@ -130,7 +130,7 @@
               {{ user.isPending ? 'Unpending' : 'Pending' }}
               </button>
 
-<button
+              <button
                 (click)="toggleSuspend(user)"
                 class="action-btn"
               [disabled]="demoMode"
@@ -139,8 +139,8 @@
                 {{ user.isSuspended ? 'Unsuspend' : 'Suspend' }}
                 </button>
 
-<button 
-                (click)="toggleBan(user)" 
+              <button
+                (click)="toggleBan(user)"
                 class="action-btn"
               [disabled]="demoMode"
                 [class.ban-btn]="!user.isBanned"
@@ -149,15 +149,15 @@
               </button>
 
             </td>
-            
+
           </tr>
         </tbody>
       </table>
-      
+
       <div *ngIf="users.length === 0" class="empty-state">
         No users found.
       </div>
     </div>
   </section>
-  
+
 </div>

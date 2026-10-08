@@ -27,6 +27,7 @@ Use your configured AWS profile. Never put AWS credentials in source control.
 aws sts get-caller-identity --region us-west-2
 npm run build -- --configuration prod
 aws s3 sync dist/answernow-ui/browser s3://answernowplace.com --exclude index.html --cache-control "public,max-age=3600" --region us-west-2
+aws s3 cp dist/answernow-ui/browser/demo-data-v2.json s3://answernowplace.com/demo-data-v2.json --cache-control "no-cache" --content-type "application/json" --region us-west-2
 aws s3 cp dist/answernow-ui/browser/index.html s3://answernowplace.com/index.html --cache-control "no-cache" --content-type "text/html" --region us-west-2
 aws cloudfront create-invalidation --distribution-id E34ZG5ZYKBLU90 --paths "/*"
 ```
@@ -38,3 +39,5 @@ Upload assets first and HTML last. Do not use `--delete`: keep old hashed assets
 Work is on `feature/portfolio-demo`. Commit and push that branch, review the diff, and merge via GitHub when ready. GitHub publishing records development activity; S3 uploading updates the actual website. They are separate steps.
 
 This change provisions no database, networking or new AWS services. Existing hosting and traffic charges still apply.
+
+The fixture uses a versioned filename to bypass previously cached JSON. Revalidate it with `no-cache` after asset sync. If its schema changes again, update the filename and service URL together. Verify rendered dashboard cards and rows in a browser, not just HTTP status.

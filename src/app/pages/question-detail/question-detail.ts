@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -21,6 +22,7 @@ import { Subject, takeUntil, Observable } from 'rxjs';
   styleUrl: './question-detail.scss',
 })
 export class QuestionDetail implements OnInit, OnDestroy {
+  readonly demoMode = environment.demoMode;
 
   question?: Question;
   answers: AnswerVm[] = [];
@@ -115,6 +117,7 @@ export class QuestionDetail implements OnInit, OnDestroy {
   }
 
   submitAnswer(): void {
+    if (this.demoMode) return;
     if(this.answerForm.invalid || !this.question){
       return;
     }
@@ -143,6 +146,7 @@ export class QuestionDetail implements OnInit, OnDestroy {
 
 
   voteOnAnswer(answerId: number, isUpVote: boolean): void {
+    if (this.demoMode) return;
     // Prevent if already voting or already voted on this answer
     if (this.votingInProgress || this.votedAnswers.has(answerId)) {
       return;

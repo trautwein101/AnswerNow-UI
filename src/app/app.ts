@@ -1,3 +1,4 @@
+import { environment } from '../environments/environment';
 import { Component, signal } from '@angular/core';
 
 @Component({
@@ -7,5 +8,6 @@ import { Component, signal } from '@angular/core';
   styleUrl: './app.scss'
 })
 export class App {
+  readonly demoMode = environment.demoMode;
   protected readonly title = signal('answernow-ui');
 }

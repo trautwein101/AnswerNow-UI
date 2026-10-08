@@ -11,7 +11,7 @@
         <a routerLink="/questions" routerLinkActive="active">Questions</a>
     </nav>
 
-    <div class="header-actions">
+    <div class="header-actions" *ngIf="!demoMode">
         <ng-container *ngIf="currentUser$ | async as user; else loginLinks">
             <!-- User is logged in -->
             <span class="user-greeting">Hello, <strong>{{ user.displayName }}</strong></span>

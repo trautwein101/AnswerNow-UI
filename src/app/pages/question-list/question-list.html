@@ -2,7 +2,7 @@
   <div class="page-header">
     <h1>Questions</h1>
 
-    <a class="btn btn-primary" [routerLink]="['/questions/new']">
+    <a *ngIf="!demoMode" class="btn btn-primary" [routerLink]="['/questions/new']">
       + Ask a Question
     </a>
   </div>
@@ -20,7 +20,7 @@
   </div>
   -->
 
-  <div *ngIf="questions?.length; else noQuestions" class="question-list">
+  <div *ngIf="questions.length; else noQuestions" class="question-list">
     <div *ngFor="let q of questions" class="question-item">
 
       <div class="question-content">
@@ -53,7 +53,7 @@
       <h3>No questions yet</h3>
       <p>Be the first to ask something.</p>
 
-      <a class="btn btn-secondary" [routerLink]="['/questions/new']">
+      <a *ngIf="!demoMode" class="btn btn-secondary" [routerLink]="['/questions/new']">
         + Ask a Question
       </a>
     </div>

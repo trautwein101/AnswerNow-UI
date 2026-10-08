@@ -38,7 +38,7 @@
             type="button"
             class="vote-btn upvote"
             (click)="voteOnAnswer(answer.id, true)"
-            [disabled]="votingInProgress || hasVoted(answer.id)"
+            [disabled]="demoMode || votingInProgress || hasVoted(answer.id)"
             [class.voted]="hasVoted(answer.id)">
             ▲
           </button>
@@ -53,7 +53,7 @@
             type="button"
             class="vote-btn downvote"
             (click)="voteOnAnswer(answer.id, false)"
-            [disabled]="votingInProgress || hasVoted(answer.id)"
+            [disabled]="demoMode || votingInProgress || hasVoted(answer.id)"
             [class.voted]="hasVoted(answer.id)">
             ▼
           </button>
@@ -82,7 +82,8 @@
   </section>
 
   <!-- Your Answer -->
-  <section class="answer-form">
+  <p *ngIf="demoMode">Sample vote counts are shown above. Posting and voting are paused in this demo.</p>
+  <section class="answer-form" *ngIf="!demoMode">
     <h3>Your Answer</h3>
 
     <ng-container *ngIf="currentUser$ | async as user; else loginToAnswer">

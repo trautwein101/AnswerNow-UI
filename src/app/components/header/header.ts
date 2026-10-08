@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -14,6 +15,7 @@ import { User } from '../../models/auth';
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
+  readonly demoMode = environment.demoMode;
 
  currentUser$!: Observable<User | null>;
 

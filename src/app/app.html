@@ -1,5 +1,7 @@
 <app-header></app-header >
 
+<aside *ngIf="demoMode" class="demo-notice" aria-label="Portfolio demo"><strong>Portfolio demo</strong> ? Explore sample questions and answers. Account creation, posting and voting are currently paused.</aside>
+
 <main class="app-content">
   <router-outlet></router-outlet>
 </main>

@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -13,6 +14,7 @@ import { Question } from '../../models/question';
   styleUrl: './question-list.scss'
 })
 export class QuestionList {
+  readonly demoMode = environment.demoMode;
 
   questions: Question[] = [];
 

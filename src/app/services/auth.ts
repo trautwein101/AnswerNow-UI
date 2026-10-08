@@ -33,7 +33,7 @@ export class AuthService {
         private router: Router
     ){
         //initialize to see if previously logged in
-        this.loadStoredUser();
+        if (!environment.demoMode) this.loadStoredUser();
     }
 
     //Initialize ~ Called on app startup to restore previous session

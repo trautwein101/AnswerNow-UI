@@ -1,5 +1,7 @@
+import { inject } from '@angular/core';
+import { environment } from '../environments/environment';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Router, CanActivateFn } from '@angular/router';
 
 import { Home } from './pages/home/home';   
 import { QuestionList } from './pages/question-list/question-list';
@@ -14,19 +16,21 @@ import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { adminGuard } from './guards/role.guard';
 import { authGuard } from './guards/auth.guard';
 
+const liveOnly: CanActivateFn = () => !environment.demoMode || inject(Router).createUrlTree(['/questions']);
+
 const routes: Routes = [
   { path: '', component: Home },
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
+  { path: 'login', component: Login, canActivate: [liveOnly] },
+  { path: 'register', component: Register, canActivate: [liveOnly] },
   { path: 'questions', component: QuestionList },
   { path: 'questions/new', 
     component: QuestionCreate,
-    canActivate: [authGuard] //Protected via login
+    canActivate: [liveOnly, authGuard] //Protected via login
   },
   { path: 'questions/:id', component: QuestionDetail },
   { path: 'admin',
     component: AdminDashboard,
-    canActivate: [adminGuard] //Protected via admin role
+    canActivate: [liveOnly, adminGuard] //Protected via admin role
   }
 ];
 

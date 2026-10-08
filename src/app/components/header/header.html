@@ -12,7 +12,10 @@
     </nav>
 
     <div class="header-actions" *ngIf="demoMode">
-        <a routerLink="/admin" class="btn btn-danger btn-sm">Dashboard Demo</a>
+        <span class="user-greeting">Hello, <strong>Demo User</strong></span>
+        <a routerLink="/admin" class="btn btn-danger btn-sm">Admin Panel</a>
+        <button type="button" class="btn btn-warning btn-sm" disabled title="Moderation is unavailable in this demo">Moderate</button>
+        <a routerLink="/questions/new" class="btn btn-secondary btn-sm">Ask a Question</a>
         <a routerLink="/login" class="btn btn-success btn-sm">Login</a>
         <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
     </div>

@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 import { AdminService } from './admin';
 import { Login } from '../pages/login/login';
 import { Register } from '../pages/register/register';
+import { QuestionCreate } from '../pages/question-create/question-create';
+import { Header } from '../components/header/header';
+import { AuthService } from './auth';
 import { AppRoutingModule } from '../app-routing-module';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from '@angular/router';
 
@@ -96,5 +99,30 @@ describe('Portfolio demo network isolation', () => {
     expect(TestBed.runInInjectionContext(() => guard(route, state))).toBe(true);
     environment.demoMode = false;
     expect(TestBed.runInInjectionContext(() => guard(route, state))).toBe(false);
+  });
+
+  it('displays a demo identity and signed-in navigation without creating a real login', () => {
+    const auth = TestBed.inject(AuthService);
+    expect(auth.getCurrentUser()?.displayName).toBe('Demo User');
+    expect(auth.isAdmin()).toBe(false);
+    expect(auth.isLoggedIn()).toBe(false);
+    const fixture = TestBed.createComponent(Header);
+    fixture.detectChanges();
+    const header = fixture.nativeElement as HTMLElement;
+    expect(header.textContent).toContain('Hello, Demo User');
+    expect(header.querySelector('a[href="/admin"]')?.textContent).toContain('Admin Panel');
+    expect(header.querySelector('a[href="/questions/new"]')?.textContent).toContain('Ask a Question');
+  });
+
+  it('lets guests fill in a question preview but never submit it', () => {
+    const fixture = TestBed.createComponent(QuestionCreate);
+    fixture.detectChanges();
+    const form = fixture.componentInstance.questionForm;
+    expect(form.controls.createdBy.value).toBe('demo@example.com');
+    form.patchValue({ title: 'A sample question', body: 'Sample details' });
+    fixture.detectChanges();
+    expect(form.valid).toBe(true);
+    expect(fixture.nativeElement.querySelector('button[type="submit"]').disabled).toBe(true);
+    fixture.componentInstance.onSubmit();
   });
 });

@@ -2,7 +2,7 @@
 
 The public portfolio runs in read-only demo mode while the database is offline. Three fictional questions and six answers are bundled in `public/demo-data.json`. No personal resume information is included in the demo fixture.
 
-`demoMode` is enabled in the local/default and PROD environment files; DEV and QA retain live API behavior. Demo mode shows Login, Register and Dashboard Demo navigation. Login and registration forms are read-only with disabled submissions and a demo note. The dashboard uses five fictional users and sample statistics; role changes and all account management actions are disabled. Question creation redirects to questions, answering/voting are disabled, stored login state is ignored, and a cached static JSON fixture replaces question/answer/admin API reads. The live dashboard still requires admin authorization when demo mode is off. Turning the flag off restores live API behavior; restore and verify the backend first.
+`demoMode` is enabled in the local/default and PROD environment files; DEV and QA retain live API behavior. Demo mode shows Login, Register and Dashboard Demo navigation. Login and registration forms are read-only with disabled submissions and a demo note. The dashboard uses five fictional users and sample statistics; role changes and all account management actions are disabled. Visitors see a display-only Demo User identity and signed-in navigation (Admin Panel and Ask a Question). Question and answer forms can be explored and typed into, but submissions/voting are disabled, stored login state is ignored, and a cached static JSON fixture replaces question/answer/admin API reads. The live dashboard still requires admin authorization when demo mode is off. Turning the flag off restores live API behavior; restore and verify the backend first.
 
 ## Verify locally
 
@@ -12,7 +12,7 @@ npm test -- --watch=false --filter="Portfolio demo"
 npm run build -- --configuration prod
 ```
 
-Browse `/questions`, open each question, and verify sample answers and disabled voting. Check `/login` and `/register` show preview forms with disabled submission, `/admin` displays sample statistics/users with disabled controls, and `/questions/new` redirects to questions. Network requests for demo browsing should load `demo-data.json`, with no API calls.
+Browse `/questions`, open each question, and verify sample answers and disabled voting. Check `/login` and `/register` show preview forms with disabled submission, `/admin` displays sample statistics/users with disabled controls, and `/questions/new` shows an editable preview with disabled submission. The Demo User identity never creates a token or real login. Network requests for demo browsing should load `demo-data.json`, with no API calls.
 
 ## Existing AWS hosting (verified October 8, 2026)
 

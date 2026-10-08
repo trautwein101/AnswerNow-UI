@@ -6,6 +6,7 @@
     </p>
   </header>
 
+  <p *ngIf="demoMode" role="note">Demo User preview ? Try writing a question. Submission is disabled and nothing is saved.</p>
   <div class="question-form">
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -46,6 +47,7 @@
         <label for="createdBy" class="form-label">Your Email</label>
         <input
           id="createdBy"
+          [readOnly]="demoMode"
           type="email"
           class="form-control"
           formControlName="createdBy"
@@ -62,7 +64,7 @@
       <button
         type="submit"
         class="btn btn-primary btn-block"
-        [disabled]="questionForm.invalid"
+        [disabled]="demoMode || questionForm.invalid"
       >
         Submit Question
       </button>

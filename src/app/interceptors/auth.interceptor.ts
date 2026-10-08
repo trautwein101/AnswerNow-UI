@@ -1,9 +1,11 @@
+import { environment } from '../../environments/environment';
 import { HttpInterceptorFn, HttpErrorResponse } from "@angular/common/http";  
 import { inject } from "@angular/core";
 import { catchError, switchMap, throwError } from "rxjs";
 import { AuthService } from "../services/auth";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+    if (environment.demoMode) return next(req);
     //inject to get service
     const authService = inject(AuthService);
 

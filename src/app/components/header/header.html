@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header" [class.demo-header]="demoMode">
     <div class="header-brand">
         <a routerLink="/">
             <span class="brand-icon">💬</span>
@@ -11,7 +11,15 @@
         <a routerLink="/questions" routerLinkActive="active">Questions</a>
     </nav>
 
-    <div class="header-actions">
+    <div class="header-actions" *ngIf="demoMode">
+        <span class="user-greeting">Hello, <strong>Demo User</strong></span>
+        <a routerLink="/admin" class="btn btn-danger btn-sm">Admin Panel</a>
+        <button type="button" class="btn btn-warning btn-sm" disabled title="Moderation is unavailable in this demo">Moderate</button>
+        <a routerLink="/questions/new" class="btn btn-secondary btn-sm">Ask a Question</a>
+        <a routerLink="/login" class="btn btn-success btn-sm">Login</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
+    </div>
+    <div class="header-actions" *ngIf="!demoMode">
         <ng-container *ngIf="currentUser$ | async as user; else loginLinks">
             <!-- User is logged in -->
             <span class="user-greeting">Hello, <strong>{{ user.displayName }}</strong></span>

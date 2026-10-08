@@ -1,5 +1,6 @@
+import { environment } from '../environments/environment';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivateFn } from '@angular/router';
 
 import { Home } from './pages/home/home';   
 import { QuestionList } from './pages/question-list/question-list';
@@ -14,6 +15,10 @@ import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { adminGuard } from './guards/role.guard';
 import { authGuard } from './guards/auth.guard';
 
+const questionAccess: CanActivateFn = (route, state) => environment.demoMode || authGuard(route, state);
+
+const dashboardAccess: CanActivateFn = (route, state) => environment.demoMode || adminGuard(route, state);
+
 const routes: Routes = [
   { path: '', component: Home },
   { path: 'login', component: Login },
@@ -21,12 +26,12 @@ const routes: Routes = [
   { path: 'questions', component: QuestionList },
   { path: 'questions/new', 
     component: QuestionCreate,
-    canActivate: [authGuard] //Protected via login
+    canActivate: [questionAccess] //Protected via login
   },
   { path: 'questions/:id', component: QuestionDetail },
   { path: 'admin',
     component: AdminDashboard,
-    canActivate: [adminGuard] //Protected via admin role
+    canActivate: [dashboardAccess] //Protected via admin role
   }
 ];
 

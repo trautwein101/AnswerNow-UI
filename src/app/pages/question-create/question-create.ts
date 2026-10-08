@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -16,6 +17,7 @@ import { User } from '../../models/auth';
   styleUrl: './question-create.scss',
 })
 export class QuestionCreate implements OnInit, OnDestroy{
+  readonly demoMode = environment.demoMode;
 
   private destroy$ = new Subject<void>();
 
@@ -60,6 +62,7 @@ export class QuestionCreate implements OnInit, OnDestroy{
   }
 
   onSubmit(): void {
+    if (this.demoMode) return;
     if (this.questionForm.invalid) {
       this.questionForm.markAllAsTouched();
       return;

@@ -6,10 +6,11 @@
             {{ errorMessage }}
         </div>
 
+        <p *ngIf="demoMode" class="alert" role="note">Portfolio demo: Account access is paused. This form is a preview; no information is submitted.</p>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
-                <input
+                <input [readOnly]="demoMode"
                     id="email"
                     type="email"
                     class="form-control"
@@ -22,7 +23,7 @@
 
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input
+                <input [readOnly]="demoMode"
                     id="password"
                     type="password"
                     class="form-control"
@@ -33,7 +34,7 @@
                 </div>
             </div>
             
-            <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid || isLoading">
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="demoMode || loginForm.invalid || isLoading">
                 {{ isLoading ? 'Logging in...' : 'Login' }}
             </button>
         </form>

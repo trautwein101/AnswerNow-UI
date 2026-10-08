@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Component, ChangeDetectorRef, NgZone } from "@angular/core";  
 import { CommonModule } from "@angular/common";
 import { RouterModule, Router, ActivatedRoute } from "@angular/router";
@@ -14,6 +15,7 @@ import { AuthService } from "../../services/auth";
 })
 
 export class Login {
+  readonly demoMode = environment.demoMode;
 
     loginForm = new FormGroup({
         email: new FormControl('', {
@@ -38,6 +40,7 @@ export class Login {
     ){}
     
     onSubmit(): void {
+    if (this.demoMode) return;
         if (this.isLoading) return; // Prevent multiple submissions smokey
 
         if(this.loginForm.invalid) {

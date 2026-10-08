@@ -38,7 +38,7 @@
             type="button"
             class="vote-btn upvote"
             (click)="voteOnAnswer(answer.id, true)"
-            [disabled]="votingInProgress || hasVoted(answer.id)"
+            [disabled]="demoMode || votingInProgress || hasVoted(answer.id)"
             [class.voted]="hasVoted(answer.id)">
             ▲
           </button>
@@ -53,7 +53,7 @@
             type="button"
             class="vote-btn downvote"
             (click)="voteOnAnswer(answer.id, false)"
-            [disabled]="votingInProgress || hasVoted(answer.id)"
+            [disabled]="demoMode || votingInProgress || hasVoted(answer.id)"
             [class.voted]="hasVoted(answer.id)">
             ▼
           </button>
@@ -82,8 +82,10 @@
   </section>
 
   <!-- Your Answer -->
+  <p *ngIf="demoMode">Sample vote counts are shown above. Posting and voting are paused in this demo.</p>
   <section class="answer-form">
     <h3>Your Answer</h3>
+    <p *ngIf="demoMode" role="note">Demo User preview: Try composing an answer. Submission is disabled and nothing is saved.</p>
 
     <ng-container *ngIf="currentUser$ | async as user; else loginToAnswer">
     <form [formGroup]="answerForm" (ngSubmit)="submitAnswer()">
@@ -107,7 +109,7 @@
           readonly/>
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="answerForm.invalid">
+      <button class="btn btn-primary" type="submit" [disabled]="demoMode || answerForm.invalid">
         Post Your Answer
       </button>
     </form>

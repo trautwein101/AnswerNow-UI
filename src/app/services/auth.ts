@@ -33,7 +33,12 @@ export class AuthService {
         private router: Router
     ){
         //initialize to see if previously logged in
-        this.loadStoredUser();
+        if (environment.demoMode) {
+            // Display-only identity: no tokens, stored session or real admin privileges.
+            this.currentUserSubject.next({ userId: 0, displayName: 'Demo User', email: 'demo@example.com', role: UserRoles.User });
+        } else {
+            this.loadStoredUser();
+        }
     }
 
     //Initialize ~ Called on app startup to restore previous session

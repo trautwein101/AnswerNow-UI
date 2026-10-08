@@ -20,7 +20,7 @@
   </div>
   -->
 
-  <div *ngIf="questions?.length; else noQuestions" class="question-list">
+  <div *ngIf="questions.length; else noQuestions" class="question-list">
     <div *ngFor="let q of questions" class="question-item">
 
       <div class="question-content">

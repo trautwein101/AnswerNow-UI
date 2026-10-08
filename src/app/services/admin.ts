@@ -1,6 +1,7 @@
+import { DemoDataService } from './demo-data';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, map, throwError } from "rxjs";
 import { environment } from '../../environments/environment';
 import { AdminStats, Users } from "../models/admin";
 
@@ -12,20 +13,23 @@ export class AdminService {
   private readonly apiUrl = `${environment.apiBaseUrl}/Admin`;
 
     constructor(
-        private http: HttpClient){}
+        private http: HttpClient, private demo: DemoDataService){}
 
     //GET /api/Admin/stats
     getStats(): Observable<AdminStats> {
+        if (environment.demoMode) return this.demo.load().pipe(map(data => data.stats));
         return this.http.get<AdminStats>(`${this.apiUrl}/stats`);
     }
 
     //GET /api/Admin/users
     getUsers(): Observable<Users[]>{
+        if (environment.demoMode) return this.demo.load().pipe(map(data => data.users));
         return this.http.get<Users[]>(`${this.apiUrl}/users`);
     }
 
     //POST /api/Admin/{userId}/role?newRole=Admin
     changeUserRole(userId: number, newRole: string): Observable<Users>{
+        if (environment.demoMode) return throwError(() => new Error('Account management is paused in portfolio demo mode.'));
         const params = new HttpParams().set("newRole", newRole);
         return this.http.post<Users>(`${this.apiUrl}/${userId}/role`, {}, { params });
     }
@@ -56,6 +60,7 @@ export class AdminService {
         paramName: string,
         value: boolean
     ): Observable<Users> {
+        if (environment.demoMode) return throwError(() => new Error('Account management is paused in portfolio demo mode.'));
         const params = new HttpParams().set(paramName, String(value));
         return this.http.post<Users>(`${this.apiUrl}/${userId}/${route}`, {}, { params } );
        

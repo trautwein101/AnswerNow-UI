@@ -5,3 +5,45 @@
 .app-content {
   // Inherits from global styles
 }
+
+.demo-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1.5rem;
+  background: #e8f5fa;
+  color: #15374a;
+  border-bottom: 1px solid #b9dce8;
+
+  p { margin: 0; flex: 1 1 28rem; }
+}
+
+.architecture-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-left: auto; }
+
+.architecture-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid #b5bec8;
+  border-radius: var(--radius-md);
+  color: #243342;
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+
+  &:focus-visible { outline: 2px solid #087e9b; outline-offset: 3px; }
+}
+
+.backend-architecture { background: #e2e5e9; &:hover { background: #d0d5dc; } }
+.frontend-architecture { background: #f1f2f4; &:hover { background: #e0e3e7; } }
+
+@media (max-width: 600px) {
+  .demo-notice { padding: 1rem; }
+  .architecture-links { width: 100%; margin-left: 0; }
+  .architecture-button { flex: 1 1 12rem; }
+}

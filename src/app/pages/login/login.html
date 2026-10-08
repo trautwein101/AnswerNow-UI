@@ -6,7 +6,7 @@
             {{ errorMessage }}
         </div>
 
-        <p *ngIf="demoMode" class="alert" role="note">Portfolio demo ? Account access is paused. This form is a preview; no information is submitted.</p>
+        <p *ngIf="demoMode" class="alert" role="note">Portfolio demo: Account access is paused. This form is a preview; no information is submitted.</p>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>

@@ -6,7 +6,7 @@
     </p>
   </header>
 
-  <p *ngIf="demoMode" role="note">Demo User preview ? Try writing a question. Submission is disabled and nothing is saved.</p>
+  <p *ngIf="demoMode" role="note">Demo User preview: Try writing a question. Submission is disabled and nothing is saved.</p>
   <div class="question-form">
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
       <div class="form-group">

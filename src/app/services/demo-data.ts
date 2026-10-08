@@ -9,7 +9,7 @@ import { Answer } from '../models/answer';
 export class DemoDataService {
   private readonly data;
   constructor(http: HttpClient) {
-    this.data = http.get<{ questions: Question[]; answers: Answer[]; users: Users[]; stats: AdminStats }>('demo-data.json')
+    this.data = http.get<{ questions: Question[]; answers: Answer[]; users: Users[]; stats: AdminStats }>('demo-data-v2.json')
       .pipe(shareReplay({ bufferSize: 1, refCount: false }));
   }
   load() { return this.data; }

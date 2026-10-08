@@ -12,6 +12,7 @@ import { Login } from '../pages/login/login';
 import { Register } from '../pages/register/register';
 import { QuestionCreate } from '../pages/question-create/question-create';
 import { Header } from '../components/header/header';
+import { AdminDashboard } from '../pages/admin-dashboard/admin-dashboard';
 import { AuthService } from './auth';
 import { AppRoutingModule } from '../app-routing-module';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from '@angular/router';
@@ -36,7 +37,7 @@ describe('Portfolio demo network isolation', () => {
     const question = { id: 1, title: 'Sample' };
     const answer = { id: 10, questionId: 1 };
     questions.getQuestions().subscribe(data => expect(data[0].title).toBe('Sample'));
-    const request = http.expectOne('demo-data.json');
+    const request = http.expectOne('demo-data-v2.json');
     expect(request.request.headers.has('Authorization')).toBe(false);
     request.flush({ questions: [question], answers: [answer] });
     questions.getQuestionById(1).subscribe(data => expect(data.id).toBe(1));
@@ -66,7 +67,7 @@ describe('Portfolio demo network isolation', () => {
   it('previews the dashboard from static data and rejects every management action', () => {
     const admin = TestBed.inject(AdminService);
     admin.getStats().subscribe(stats => expect(stats.totalUsers).toBe(5));
-    TestBed.inject(HttpTestingController).expectOne('demo-data.json').flush({
+    TestBed.inject(HttpTestingController).expectOne('demo-data-v2.json').flush({
       questions: [], answers: [], users: [{ id: 1, displayName: 'Sample user' }], stats: { totalUsers: 5 }
     });
     admin.getUsers().subscribe(users => expect(users[0].displayName).toBe('Sample user'));
@@ -124,5 +125,26 @@ describe('Portfolio demo network isolation', () => {
     expect(form.valid).toBe(true);
     expect(fixture.nativeElement.querySelector('button[type="submit"]').disabled).toBe(true);
     fixture.componentInstance.onSubmit();
+  });
+
+  it('renders dashboard statistics and user rows from the versioned fixture', async () => {
+    const fixture = TestBed.createComponent(AdminDashboard);
+    fixture.detectChanges();
+    TestBed.inject(HttpTestingController).expectOne('demo-data-v2.json').flush({
+      questions: [], answers: [], stats: { totalUsers: 2, totalQuestions: 3, totalAnswers: 6,
+        newUsersThisWeek: 2, newQuestionsThisWeek: 1, newAnswersThisWeek: 2 },
+      users: ['Jason Trautwein', 'Shannon Collins'].map((displayName, i) => ({
+        id: i + 1, displayName, email: 'sample@example.com', role: i ? 'Admin' : 'User',
+        isActive: true, dateCreated: '2026-02-19T15:00:00Z', dateUpdated: '2026-02-19T15:00:00Z'
+      }))
+    });
+    await fixture.whenStable();
+    const page = fixture.nativeElement as HTMLElement;
+    expect([...page.querySelectorAll('.stat-value')].map(card => card.textContent?.trim())).toEqual(['2', '3', '6']);
+    expect(page.querySelectorAll('tbody tr').length).toBe(2);
+    expect(page.textContent).toContain('Shannon Collins');
+    for (const control of page.querySelectorAll<HTMLButtonElement | HTMLSelectElement>('.action-btn, .role-select')) {
+      expect(control.disabled).toBe(true);
+    }
   });
 });

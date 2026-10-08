@@ -121,10 +121,7 @@
               {{ user.isActive ? 'Deactivate' : 'Activate' }}
               </button>
 
-              &nbsp;&nbsp;&nbsp;
-
-
-              <button
+<button
               (click)="togglePending(user)"
               class="action-btn"
               [disabled]="demoMode"
@@ -133,9 +130,7 @@
               {{ user.isPending ? 'Unpending' : 'Pending' }}
               </button>
 
-              &nbsp;&nbsp;&nbsp; 
-
-              <button
+<button
                 (click)="toggleSuspend(user)"
                 class="action-btn"
               [disabled]="demoMode"
@@ -144,9 +139,7 @@
                 {{ user.isSuspended ? 'Unsuspend' : 'Suspend' }}
                 </button>
 
-              &nbsp;&nbsp;&nbsp; 
-
-              <button 
+<button 
                 (click)="toggleBan(user)" 
                 class="action-btn"
               [disabled]="demoMode"
